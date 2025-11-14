@@ -33,3 +33,10 @@
    ```bash
    php artisan jwt:secret
     ```
+9. Check connect DB:
+
+   ```bash
+    mysql -h 192.168.1.10 -u root -p
+    ```
+
+    

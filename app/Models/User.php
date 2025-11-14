@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
@@ -14,14 +13,55 @@ class User extends Authenticatable implements JWTSubject
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
+
+    /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'ID';
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
+     * The name of the "created at" column.
+     *
+     * @var string
+     */
+    const CREATED_AT = 'user_registered';
+
+    /**
+     * The name of the "updated at" column.
+     *
+     * @var string
+     */
+    const UPDATED_AT = null; // We don't have an updated_at column
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'user_login',
+        'user_pass',
+        'user_nicename',
+        'user_email',
+        'user_url',
+        'user_registered',
+        'user_activation_key',
+        'user_status',
+        'display_name',
     ];
 
     /**
@@ -30,7 +70,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
+        'user_pass',
         'remember_token',
     ];
 
@@ -41,8 +81,16 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
+
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword() {
+        return $this->user_pass;
+    }
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
