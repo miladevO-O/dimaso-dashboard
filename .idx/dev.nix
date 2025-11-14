@@ -3,6 +3,7 @@
   packages = [
     pkgs.nodejs_20
     pkgs.mysql
+    pkgs.php
   ];
   idx.extensions = [
     "svelte.svelte-vscode"
@@ -17,6 +18,7 @@
         command = [
           "npm"
           "run"
+
           "dev"
           "--"
           "--port"
