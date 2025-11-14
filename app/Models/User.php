@@ -84,12 +84,32 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
+     * Get the e-mail address identifier for the user.
+     *
+     * @return string
+     */
+    public function getAuthIdentifierName()
+    {
+        return 'user_email';
+    }
+
+    /**
      * Get the password for the user.
      *
      * @return string
      */
     public function getAuthPassword() {
         return $this->user_pass;
+    }
+
+    /**
+     * Get the name of the unique identifier for the user.
+     *
+     * @return string
+     */
+    public function getAuthPasswordName()
+    {
+        return 'user_pass';
     }
 
     /**
