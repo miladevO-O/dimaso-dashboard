@@ -36,7 +36,7 @@
 9. Check connect DB:
 
    ```bash
-    mysql -h 192.168.1.10 -u root -p
+    mysql -h 103.255.237.246 -u root -p
     ```
 
     
