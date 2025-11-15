@@ -57,6 +57,7 @@ class Kernel extends HttpKernel
         'auth.token'        => \App\Http\Middleware\JWT\AuthenticateMiddleware::class,
         'auth.basic'       => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.session'     => \Illuminate\Session\Middleware\AuthenticateSession::class,
+        'admin.auth'       => \App\Http\Middleware\WebAuth\AdminAuthenticated::class,
         'cache.headers'    => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can'              => \Illuminate\Auth\Middleware\Authorize::class,
         'guest'            => \App\Http\Middleware\RedirectIfAuthenticated::class,

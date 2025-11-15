@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,5 +19,14 @@ Route::get('/', function () {
 });
 
 Route::get('/login', function () {
-    return view('login');
-})->name('login.test');
+    return view('auth.login');
+})->name('auth.login');
+
+Route::post('/login', [AuthController::class, 'login']);
+Route::middleware(['admin.auth'])->group(function () {
+
+    Route::get('/dashboard', function () {
+        return view('dashboard.home');
+    })->name('dashboard');
+
+});

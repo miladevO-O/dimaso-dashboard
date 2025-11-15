@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
@@ -22,12 +22,10 @@ class AuthController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         $credentials = $request->credentials();
-        Log::info('Login credentials:', $credentials);
 
         $user = User::where('user_email', $credentials['user_email'])->first();
 
         if (!$user) {
-            Log::info('User not found');
             throw new OAuthException(code: 'invalid_credentials_provided');
         }
 
@@ -37,25 +35,18 @@ class AuthController extends Controller
 
         // Check if the stored hash has the custom '$wp' prefix
         if (strpos($stored_hash, $prefix) === 0) {
-            // Strip the prefix to get the real bcrypt hash
             $bcrypt_hash = substr($stored_hash, strlen($prefix));
-            Log::info('WP Prefix detected. Stripped hash:', ['hash' => $bcrypt_hash]);
         } else {
-            $bcrypt_hash = $stored_hash; // Assume it's a standard hash if no prefix
+            $bcrypt_hash = $stored_hash; 
         }
 
         // Use Laravel's built-in Hash checker, which is the correct way for bcrypt hashes
         if (!Hash::check($password, $bcrypt_hash)) {
-            Log::info('Password check failed using Hash::check.', [
-                'password' => $password,
-                'bcrypt_hash' => $bcrypt_hash
-            ]);
             throw new OAuthException(code: 'invalid_credentials_provided');
         }
 
         // Password is correct, log the user in
         if (!$token = auth()->login($user)) {
-            Log::info('Could not log in user after password check');
             throw new OAuthException(code: 'invalid_credentials_provided');
         }
 
